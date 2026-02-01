@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Mahashivratri - Special Wish</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-gold: #FFD700;
+            --primary-orange: #FF8C00;
+            --deep-blue: #0a0a23;
+            --soft-glow: 0 0 15px rgba(255, 215, 0, 0.3);
+            --stylish-red: #ff0f0f;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #0f0518 0%, #000000 100%);
+            font-family: 'Cinzel', serif;
+            color: white;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+            perspective: 1000px; /* For 3D Tilt */
+        }
+
+        /* --- Premium Overlays --- */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 998;
+            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%);
+        }
+
+        /* --- Top Credit Button --- */
+        .top-credit {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001; /* Above grain/overlays */
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .top-credit:hover {
+            background: rgba(255, 215, 0, 0.15);
+            color: var(--primary-gold);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+            transform: translateY(2px);
+        }
+
+        /* --- Background Layers --- */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 1px, transparent 2px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 1.5px);
+            background-size: 550px 550px, 350px 350px; 
+            background-position: 0 0, 40px 60px;
+            animation: starMove 120s linear infinite;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .firefly-container, .shooting-star-container, #floating-om-container, .cursor-trail-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle-fade 1s forwards;
+            box-shadow: 0 0 10px var(--primary-gold);
+        }
+
+        @keyframes sparkle-fade {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; top: -20px; }
+        }
+
+        .firefly-container { z-index: 1; }
+        .shooting-star-container { z-index: 0; overflow: hidden; }
+        
+        .firefly {
+            position: absolute;
+            bottom: -20px;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 215, 0, 0.6);
+            opacity: 0;
+            animation: riseUp linear infinite;
+        }
+        
+        .floating-om {
+            position: fixed;
+            color: rgba(255, 140, 0, 0.08);
+            font-size: 3rem;
+            z-index: 1;
+            pointer-events: none;
+            animation: floatBackground linear infinite;
+        }
+
+        /* --- Card Styles --- */
+
+        .card-container {
+            position: relative;
+            z-index: 10;
+            background: rgba(20, 10, 30, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 3rem 2rem;
+            width: 90%;
+            max-width: 450px;
+            min-height: 520px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 0 40px rgba(255, 140, 0, 0.05);
+            transition: transform 0.1s ease-out;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .card-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, var(--primary-gold));
+            animation: rotateBorder 4s linear infinite;
+            z-index: -2;
+        }
+        
+        .card-container::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: rgba(15, 10, 25, 0.9);
+            border-radius: 28px;
+            z-index: -1;
+        }
+
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .om-symbol {
+            font-size: 4rem;
+            background: linear-gradient(180deg, var(--primary-gold), var(--primary-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            display: inline-block;
+            filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.6));
+            animation: subtle-pulse 4s infinite ease-in-out;
+            transform: translateZ(20px);
+        }
+
+        /* God Rays Effect */
+        .god-rays {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            z-index: -1;
+            background: conic-gradient(from 0deg, 
+                transparent 0deg, 
+                rgba(255, 215, 0, 0.1) 20deg, 
+                transparent 40deg, 
+                rgba(255, 215, 0, 0.1) 60deg, 
+                transparent 80deg, 
+                rgba(255, 215, 0, 0.1) 100deg, 
+                transparent 120deg,
+                rgba(255, 215, 0, 0.1) 140deg,
+                transparent 160deg
+            );
+            mask-image: radial-gradient(black, transparent 70%);
+            -webkit-mask-image: radial-gradient(black, transparent 70%);
+            animation: rotateRays 30s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotateRays {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .god-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            margin: 0 auto 20px auto;
+            background: linear-gradient(135deg, #1a1a1a, #000);
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.3);
+            transform: translateZ(30px);
+        }
+        
+        .god-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: transform 0.5s ease;
+        }
+
+        .god-image::after {
+            content: 'ॐ';
+            position: absolute;
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        /* --- Text Animations --- */
+
+        h1 {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #fff 20%, #ffd700 40%, #ffd700 60%, #fff 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            /* Combined shimmer and float */
+            animation: shimmer-text 5s linear infinite, floatText 6s ease-in-out infinite;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transform: translateZ(10px);
+        }
+
+        @keyframes floatText {
+            0%, 100% { transform: translateY(0) translateZ(10px); }
+            50% { transform: translateY(-5px) translateZ(10px); }
+        }
+
+        .sub-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-style: italic;
+            color: #d4af37;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        .intro-frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            z-index: 20;
+        }
+
+        .intro-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: #ff3333;
+            line-height: 1.4;
+            text-shadow: 
+                2px 2px 0px #000, 
+                0 0 20px rgba(255, 0, 0, 0.8),
+                0 0 40px rgba(255, 0, 0, 0.4);
+            animation: frame-slide-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .intro-sub {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: #ffcccc;
+            margin-top: 15px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 0.4s forwards;
+            text-shadow: 0 0 10px rgba(255,0,0,0.5);
+        }
+
+        /* Wish Display */
+        .blessing-container {
+            background: linear-gradient(to right, transparent, rgba(255, 215, 0, 0.08), transparent);
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 25px 10px;
+            margin: 20px 0;
+            position: relative;
+            opacity: 0; 
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+            transform: translateZ(15px);
+        }
+
+        .blessing-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #f0f0f0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        /* Animated Words within Blessing */
+        .word-span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: word-reveal 0.6s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+            margin-right: 0.25em; /* Space between words */
+        }
+
+        @keyframes word-reveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .highlight-gold {
+            color: var(--primary-gold);
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            /* Pulse animation for the main highlight */
+            animation: subtle-pulse 2s infinite ease-in-out;
+        }
+
+        .from-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 5px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.1s forwards;
+        }
+
+        .user-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4rem;
+            background: linear-gradient(to right, #FFD700, #ffaa00, #FFD700);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0 0 10px 0;
+            line-height: 1.2;
+            filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.6));
+            opacity: 0; 
+            transform: translateZ(25px);
+            
+            /* Enhanced Animation: Tracking In + Shine */
+            animation: tracking-in-contract 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards, shine 4s linear infinite;
+        }
+
+        @keyframes tracking-in-contract {
+            0% { letter-spacing: 1em; opacity: 0; }
+            40% { opacity: 0.6; }
+            100% { letter-spacing: normal; opacity: 1; }
+        }
+
+        /* Inputs & Buttons */
+        .input-group {
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            transform: translateZ(20px);
+        }
+
+        input[type="text"] {
+            padding: 16px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            font-size: 1.1rem;
+            font-family: 'Cinzel', serif;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.3), inset 0 2px 5px rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.7);
+            transform: scale(1.02);
+        }
+
+        .btn {
+            padding: 16px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-create {
+            background: linear-gradient(135deg, var(--primary-orange), var(--primary-gold));
+            color: #1a0b2e;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+        }
+        
+        .btn-create:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.5);
+        }
+
+        /* Universal Share Button Style */
+        .btn-share {
+            background: linear-gradient(135deg, #007bff, #00c6ff);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+        
+        .btn-share:hover {
+            background: linear-gradient(135deg, #0056b3, #00a8e8);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 123, 255, 0.5);
+        }
+
+        /* Glow Animation for Support Button */
+        @keyframes glow-pulse {
+            0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); border-color: rgba(255, 215, 0, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), inset 0 0 10px rgba(255, 215, 0, 0.2); border-color: rgba(255, 215, 0, 1); }
+            100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); border-color: rgba(255, 215, 0, 0.3); }
+        }
+
+        /* Support Button Container */
+        .support-btn-container {
+            margin-top: 30px;
+            text-align: center;
+            transform: translateZ(10px);
+            opacity: 0;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255, 215, 0, 0.05);
+            /* Combined animations: Entrance (fadeInUp) + Loop (glow-pulse) */
+            animation: fadeInUp 1s ease 2s forwards, glow-pulse 2s infinite 3s; 
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes shine { to { background-position: 200% center; } }
+        @keyframes starMove { from { transform: translateY(0); } to { transform: translateY(-1000px); } }
+        @keyframes riseUp {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-110vh) scale(0.5); opacity: 0; }
+        }
+        @keyframes floatBackground {
+            from { transform: translateY(110vh) rotate(0deg); }
+            to { transform: translateY(-10vh) rotate(360deg); }
+        }
+        @keyframes frame-slide-in {
+            0% { opacity: 0; transform: scale(0.8) translateY(20px); filter: blur(5px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes subtle-pulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.6)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(255, 140, 0, 0.8)); }
+        }
+        @keyframes shimmer-text { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+
+        .hidden { display: none !important; }
+
+        .music-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--primary-gold);
+            color: var(--primary-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+        
+        .music-btn:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+        }
+        
+        .music-btn.playing {
+            background: var(--primary-gold);
+            color: #1a0b2e;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 15px;
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Credit Link -->
+    <a href="https://www.webfxgen.in/" target="_blank" class="top-credit">More Wishes</a>
+
+    <!-- Overlays -->
+    <div class="grain-overlay"></div>
+    <div class="vignette"></div>
+    <div class="cursor-trail-container" id="trail-container"></div>
+
+    <!-- Background Layers -->
+    <div class="stars"></div>
+    <div class="firefly-container" id="firefly-container"></div>
+    <div class="shooting-star-container" id="shooting-star-container"></div>
+    <div id="floating-om-container"></div>
+
+    <!-- Music Player -->
+    <audio id="bgMusic" loop>
+        <source src="https://archive.org/download/ShivTandavStotram_201702/Shiv%20Tandav%20Stotram.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="music-btn" id="musicBtn" onclick="toggleMusic()">
+        <svg id="playIcon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="pauseIcon" class="hidden" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    </div>
+
+    <div class="card-container" id="mainCard">
+        <!-- Religious Symbol / Image Area -->
+        <div id="static-header">
+            <div class="god-image">
+                <div class="god-rays"></div>
+                <!-- Uncomment line below and add image URL for Lord Shiva -->
+                <!-- <img src="https://example.com/shiva.jpg" alt="Lord Shiva"> -->
+            </div>
+            <span class="om-symbol">ॐ</span>
+        </div>
+
+        <!-- Frame Sequence Container -->
+        <div id="intro-sequence" class="intro-frame hidden">
+            <div id="sequence-content">
+                <!-- Content injected via JS -->
+            </div>
+        </div>
+
+        <!-- Dynamic Content Area -->
+        <div id="greeting-section">
+            
+            <!-- Default Header (Shows when creating) -->
+            <div id="default-header">
+                <h1>Happy Mahashivratri</h1>
+                <p class="sub-heading">Celebrate the Night of Shiva</p>
+            </div>
+
+            <!-- Wish Display (Shows when viewing shared link) -->
+            <div id="wish-display" class="hidden">
+                <p class="from-label">Warm Wishes From</p>
+                <div id="display-name" class="user-name">Your Name</div>
+                
+                <div class="blessing-container">
+                    <!-- Text content populated by JS for animation -->
+                    <div id="blessing-content" class="blessing-text"></div>
+                </div>
+
+                <!-- Support Button Integration -->
+                <div class="support-btn-container">
+                    <p style="font-size: 0.7rem; margin-bottom: 8px; color: var(--primary-gold); letter-spacing: 1px; text-transform: uppercase;">Support My Work</p>
+                    <form>
+                        <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_S0CCnxIwut7hNL" async> </script> 
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Creation Form -->
+        <div id="form-section" class="input-group">
+            <input type="text" id="nameInput" placeholder="Enter Your Name..." maxlength="25" autocomplete="off">
+            <button class="btn btn-create" onclick="generateWish()">
+                Create Wish ✨
+            </button>
+        </div>
+
+        <!-- Share Section -->
+        <div id="share-section" class="input-group hidden">
+            <button id="share-btn" class="btn btn-share" onclick="shareWish()">
+                Share with Friends
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-left:5px;"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+            </button>
+            <button class="btn btn-create" style="background: transparent; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.8);" onclick="createNew()">Create New</button>
+        </div>
+    </div>
+    
+    <div class="footer">Made with Devotion 🙏</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const nameParam = urlParams.get('n');
+            const music = document.getElementById('bgMusic');
+            music.volume = 0.5;
+
+            // Initialize Effects
+            initBackgroundEffects();
+            initCursorTrail();
+            init3DTilt();
+
+            if (nameParam) {
+                renderWish(decodeURIComponent(nameParam));
+            } else {
+                renderForm();
+            }
+        });
+
+        // --- 1. Background Effects ---
+        function initBackgroundEffects() {
+            const fireflyContainer = document.getElementById('firefly-container');
+            const fireflyCount = 20;
+            
+            for (let i = 0; i < fireflyCount; i++) {
+                const firefly = document.createElement('div');
+                firefly.classList.add('firefly');
+                firefly.style.left = Math.random() * 100 + '%';
+                firefly.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                firefly.style.animationDelay = (Math.random() * 5) + 's';
+                firefly.style.width = (Math.random() * 4 + 2) + 'px';
+                firefly.style.height = firefly.style.width;
+                fireflyContainer.appendChild(firefly);
+            }
+
+            const omContainer = document.getElementById('floating-om-container');
+            const omCount = 5;
+            for(let i=0; i<omCount; i++) {
+                const om = document.createElement('div');
+                om.classList.add('floating-om');
+                om.textContent = 'ॐ';
+                om.style.left = Math.random() * 95 + '%';
+                om.style.animationDuration = (Math.random() * 10 + 20) + 's';
+                om.style.animationDelay = (Math.random() * 10) + 's';
+                omContainer.appendChild(om);
+            }
+
+            setInterval(createShootingStar, 4000);
+        }
+
+        function createShootingStar() {
+            const container = document.getElementById('shooting-star-container');
+            const star = document.createElement('div');
+            star.classList.add('shooting-star');
+            star.style.top = Math.random() * 50 + '%';
+            star.style.left = Math.random() * 80 + '%';
+            star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+            container.appendChild(star);
+            setTimeout(() => star.remove(), 3000);
+        }
+
+        // --- 2. Cursor Trail Effect ---
+        function initCursorTrail() {
+            const container = document.getElementById('trail-container');
+            
+            const createSparkle = (x, y) => {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                sparkle.style.left = x + 'px';
+                sparkle.style.top = y + 'px';
+                container.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 1000);
+            };
+
+            document.addEventListener('mousemove', (e) => {
+                if(Math.random() > 0.5) createSparkle(e.clientX, e.clientY);
+            });
+            
+            document.addEventListener('touchmove', (e) => {
+                const touch = e.touches[0];
+                if(Math.random() > 0.5) createSparkle(touch.clientX, touch.clientY);
+            });
+        }
+
+        // --- 3. 3D Tilt Effect for Card ---
+        function init3DTilt() {
+            const card = document.getElementById('mainCard');
+            
+            document.addEventListener('mousemove', (e) => {
+                const x = (window.innerWidth / 2 - e.pageX) / 25;
+                const y = (window.innerHeight / 2 - e.pageY) / 25;
+                card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+            });
+            
+            // Reset on mouse leave
+            document.addEventListener('mouseleave', () => {
+                card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+            });
+        }
+
+        // --- Logic ---
+        const frames = [
+            { main: "The Great Night", sub: "Of Spiritual Awakening" },
+            { main: "Overcoming Darkness", sub: "And Ignorance in Life" },
+            { main: "Connecting With", sub: "The Divine Consciousness" },
+            { main: "Om Namah Shivaya", sub: "Har Har Mahadev!" }
+        ];
+
+        function playIntroSequence(name) {
+            document.getElementById('form-section').classList.add('hidden');
+            document.getElementById('default-header').classList.add('hidden');
+            document.getElementById('static-header').classList.add('hidden'); 
+            
+            const introContainer = document.getElementById('intro-sequence');
+            const contentDiv = document.getElementById('sequence-content');
+            introContainer.classList.remove('hidden');
+
+            let delay = 0;
+            const frameDuration = 2200;
+
+            frames.forEach((frame, index) => {
+                setTimeout(() => {
+                    contentDiv.innerHTML = `
+                        <div class="intro-text">${frame.main}</div>
+                        <div class="intro-sub">${frame.sub}</div>
+                    `;
+                }, delay);
+                delay += frameDuration;
+            });
+
+            setTimeout(() => {
+                introContainer.classList.add('hidden');
+                document.getElementById('static-header').classList.remove('hidden'); 
+                renderWish(name);
+            }, delay);
+        }
+
+        // --- Text Animation Helper ---
+        function splitTextToSpans(text) {
+            return text.split(' ').map((word, index) => {
+                // Add staggered animation delay based on index
+                const delay = index * 0.15; 
+                return `<span class="word-span" style="animation-delay: ${delay}s">${word}</span>`;
+            }).join(' ');
+        }
+
+        function renderWish(name) {
+            const safeName = name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            
+            document.getElementById('default-header').classList.add('hidden');
+            document.getElementById('form-section').classList.add('hidden');
+            document.getElementById('intro-sequence').classList.add('hidden');
+            
+            document.getElementById('wish-display').classList.remove('hidden');
+            document.getElementById('display-name').textContent = safeName;
+            
+            // Populate and animate blessing text
+            const blessingContent = document.getElementById('blessing-content');
+            const baseText = "May the divine glory of Lord Shiva destroy your sorrows and bless your life with peace, prosperity, and happiness.";
+            blessingContent.innerHTML = `
+                "${splitTextToSpans(baseText)}"
+                <br><br>
+                <span class="highlight-gold" style="opacity:0; animation: fadeInUp 1s ease 1.5s forwards;">Har Har Mahadev!</span>
+            `;
+
+            document.getElementById('share-section').classList.remove('hidden');
+            
+            document.title = `${safeName} sends a Mahashivratri Wish!`;
+        }
+
+        function renderForm() {
+            document.getElementById('default-header').classList.remove('hidden');
+            document.getElementById('wish-display').classList.add('hidden');
+            document.getElementById('form-section').classList.remove('hidden');
+            document.getElementById('share-section').classList.add('hidden');
+            document.getElementById('static-header').classList.remove('hidden');
+        }
+
+        function generateWish() {
+            const input = document.getElementById('nameInput').value.trim();
+            if (input) {
+                const newUrl = window.location.pathname + '?n=' + encodeURIComponent(input);
+                try {
+                    window.history.pushState({path: newUrl}, '', newUrl);
+                } catch (e) {
+                    console.log("Preview mode: History update skipped.");
+                }
+                
+                const music = document.getElementById('bgMusic');
+                if(music.paused) toggleMusic();
+
+                playIntroSequence(input);
+                
+            } else {
+                const inputField = document.getElementById('nameInput');
+                inputField.style.borderColor = "#ff4444";
+                inputField.style.boxShadow = "0 0 15px rgba(255, 68, 68, 0.4)";
+                setTimeout(() => {
+                    inputField.style.borderColor = "rgba(255, 215, 0, 0.4)";
+                    inputField.style.boxShadow = "none";
+                }, 500);
+            }
+        }
+
+        function createNew() {
+            try {
+                window.history.pushState({}, '', window.location.pathname);
+            } catch (e) { console.log("Preview mode: History reset skipped."); }
+            
+            document.getElementById('nameInput').value = '';
+            renderForm();
+        }
+
+        async function shareWish() {
+            const name = document.getElementById('display-name').textContent;
+            const shareUrl = window.location.href;
+            const title = "Happy Mahashivratri Wish";
+            const text = `*${name}* sent you a divine Mahashivratri blessing! 🕉️✨\n\nSee it here:\n${shareUrl}`;
+
+            // Check if Web Share API is supported
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: title,
+                        text: text,
+                        url: shareUrl
+                    });
+                } catch (err) {
+                    console.log('Share canceled or failed', err);
+                }
+            } else {
+                // Fallback for desktops or unsupported browsers
+                try {
+                    await navigator.clipboard.writeText(text);
+                    alert('Link copied to clipboard! Share it on WhatsApp, Instagram, or anywhere.');
+                } catch (err) {
+                    prompt("Copy this link to share:", shareUrl);
+                }
+            }
+        }
+
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const btn = document.getElementById('musicBtn');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+
+            if (music.paused) {
+                music.play().then(() => {
+                    btn.classList.add('playing');
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                }).catch(e => console.log("Audio play blocked", e));
+            } else {
+                music.pause();
+                btn.classList.remove('playing');
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
