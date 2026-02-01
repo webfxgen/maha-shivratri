@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Happy Mahashivratri - Special Wish</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
     
@@ -34,7 +34,8 @@
             justify-content: center;
             overflow-x: hidden;
             position: relative;
-            perspective: 1000px; /* For 3D Tilt */
+            padding: 20px 0;
+            perspective: 1000px;
         }
 
         /* --- Premium Overlays --- */
@@ -66,7 +67,7 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            z-index: 1001; /* Above grain/overlays */
+            z-index: 1001;
             color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
             font-family: 'Cinzel', serif;
@@ -108,6 +109,7 @@
             animation: starMove 120s linear infinite;
             z-index: 0;
             opacity: 0.6;
+            will-change: transform;
         }
 
         .firefly-container, .shooting-star-container, #floating-om-container, .cursor-trail-container {
@@ -148,6 +150,7 @@
             box-shadow: 0 0 10px 2px rgba(255, 215, 0, 0.6);
             opacity: 0;
             animation: riseUp linear infinite;
+            will-change: transform, opacity;
         }
         
         .floating-om {
@@ -157,6 +160,7 @@
             z-index: 1;
             pointer-events: none;
             animation: floatBackground linear infinite;
+            will-change: transform;
         }
 
         /* --- Card Styles --- */
@@ -164,9 +168,9 @@
         .card-container {
             position: relative;
             z-index: 10;
-            background: rgba(20, 10, 30, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(20, 10, 30, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border-radius: 30px;
             padding: 3rem 2rem;
             width: 90%;
@@ -192,13 +196,14 @@
             background: conic-gradient(transparent, transparent, transparent, var(--primary-gold));
             animation: rotateBorder 4s linear infinite;
             z-index: -2;
+            will-change: transform;
         }
         
         .card-container::after {
             content: '';
             position: absolute;
             inset: 2px;
-            background: rgba(15, 10, 25, 0.9);
+            background: rgba(15, 10, 25, 0.95);
             border-radius: 28px;
             z-index: -1;
         }
@@ -244,6 +249,7 @@
             -webkit-mask-image: radial-gradient(black, transparent 70%);
             animation: rotateRays 30s linear infinite;
             pointer-events: none;
+            will-change: transform;
         }
 
         @keyframes rotateRays {
@@ -299,7 +305,6 @@
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* Combined shimmer and float */
             animation: shimmer-text 5s linear infinite, floatText 6s ease-in-out infinite;
             text-shadow: 0 5px 15px rgba(0,0,0,0.5);
             transform: translateZ(10px);
@@ -421,8 +426,6 @@
             filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.6));
             opacity: 0; 
             transform: translateZ(25px);
-            
-            /* Enhanced Animation: Tracking In + Shine */
             animation: tracking-in-contract 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s forwards, shine 4s linear infinite;
         }
 
@@ -483,6 +486,7 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
+            touch-action: manipulation; /* Improves touch response */
         }
 
         .btn-create {
@@ -516,7 +520,6 @@
             100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); border-color: rgba(255, 215, 0, 0.3); }
         }
 
-        /* Support Button Container */
         .support-btn-container {
             margin-top: 30px;
             text-align: center;
@@ -526,16 +529,14 @@
             border-radius: 15px;
             border: 1px solid rgba(255,255,255,0.1);
             background: rgba(255, 215, 0, 0.05);
-            /* Combined animations: Entrance (fadeInUp) + Loop (glow-pulse) */
             animation: fadeInUp 1s ease 2s forwards, glow-pulse 2s infinite 3s; 
         }
 
-        /* Animations */
+        /* --- Shared Animations --- */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
-        
         @keyframes shine { to { background-position: 200% center; } }
         @keyframes starMove { from { transform: translateY(0); } to { transform: translateY(-1000px); } }
         @keyframes riseUp {
@@ -579,6 +580,7 @@
             backdrop-filter: blur(5px);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+            -webkit-tap-highlight-color: transparent;
         }
         
         .music-btn:hover {
@@ -600,6 +602,54 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             z-index: 5;
+        }
+
+        /* --- Mobile Specific Optimizations --- */
+        @media (max-width: 480px) {
+            .card-container {
+                width: 92%;
+                padding: 2rem 1.5rem;
+                min-height: auto; /* Allow auto height for mobile */
+                animation: fadeInUp 1s ease-out; /* Remove float on mobile to prevent jitter */
+            }
+            
+            h1 { font-size: 1.3rem; letter-spacing: 1px; }
+            .user-name { font-size: 2.8rem; }
+            .om-symbol { font-size: 3rem; margin-bottom: 10px; }
+            .god-image { width: 100px; height: 100px; margin-bottom: 15px; }
+            .god-image::after { font-size: 2rem; }
+            
+            .intro-text { font-size: 2rem; }
+            .intro-sub { font-size: 0.8rem; }
+            
+            .top-credit {
+                top: 10px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 0.65rem;
+            }
+            
+            .music-btn {
+                width: 45px;
+                height: 45px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .blessing-text { font-size: 1rem; line-height: 1.6; }
+            
+            .btn { padding: 14px 20px; font-size: 0.9rem; }
+        }
+        
+        /* Landscape Mobile Fix */
+        @media (max-height: 600px) {
+            .card-container {
+                padding: 1.5rem;
+                margin: 20px 0;
+            }
+            .god-image { width: 80px; height: 80px; }
+            .om-symbol { font-size: 2.5rem; }
+            .footer { position: static; margin-top: 20px; }
         }
     </style>
 </head>
@@ -625,8 +675,8 @@
     </audio>
 
     <div class="music-btn" id="musicBtn" onclick="toggleMusic()">
-        <svg id="playIcon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        <svg id="pauseIcon" class="hidden" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        <svg id="playIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="pauseIcon" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
     </div>
 
     <div class="card-container" id="mainCard">
@@ -645,6 +695,13 @@
             <div id="sequence-content">
                 <!-- Content injected via JS -->
             </div>
+        </div>
+
+        <!-- Open Surprise Overlay -->
+        <div id="open-modal" class="hidden" style="position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 50; top: 0; left: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 30px; backdrop-filter: blur(10px);">
+            <div class="om-symbol" style="font-size: 4rem; margin-bottom: 10px;">ॐ</div>
+            <p style="font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: var(--primary-gold); margin-bottom: 20px; text-shadow: 0 0 10px rgba(255,215,0,0.5);">Special Wish For You</p>
+            <button class="btn btn-create" style="width: auto; padding: 14px 40px; font-size: 1.1rem; box-shadow: 0 0 20px rgba(255, 140, 0, 0.4);" onclick="startSharedJourney()">Open Now ✨</button>
         </div>
 
         <!-- Dynamic Content Area -->
@@ -698,6 +755,16 @@
     <div class="footer">Made with Devotion 🙏</div>
 
     <script>
+        // Define frames globally so they are accessible
+        const frames = [
+            { main: "The Great Night", sub: "Of Spiritual Awakening" },
+            { main: "Overcoming Darkness", sub: "And Ignorance in Life" },
+            { main: "Connecting With", sub: "The Divine Consciousness" },
+            { main: "Om Namah Shivaya", sub: "Har Har Mahadev!" }
+        ];
+        
+        let globalSharedName = "";
+
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const nameParam = urlParams.get('n');
@@ -710,16 +777,43 @@
             init3DTilt();
 
             if (nameParam) {
-                renderWish(decodeURIComponent(nameParam));
+                globalSharedName = decodeURIComponent(nameParam);
+                showOpenSurprise();
             } else {
                 renderForm();
             }
         });
 
-        // --- 1. Background Effects ---
+        // --- Shared Link Logic ---
+        
+        function showOpenSurprise() {
+            // Hide standard elements
+            document.getElementById('form-section').classList.add('hidden');
+            document.getElementById('default-header').classList.add('hidden');
+            
+            // Show the "Open" modal
+            document.getElementById('open-modal').classList.remove('hidden');
+        }
+
+        function startSharedJourney() {
+            // 1. Hide Modal
+            document.getElementById('open-modal').classList.add('hidden');
+            
+            // 2. Play Music (Interaction allows this)
+            const music = document.getElementById('bgMusic');
+            if(music.paused) toggleMusic();
+            
+            // 3. Start Intro Sequence from 2nd Frame (Index 1)
+            playIntroSequence(globalSharedName, 1);
+        }
+
+        // --- 1. Background Effects (Optimized) ---
         function initBackgroundEffects() {
+            const isMobile = window.innerWidth < 768;
+            const fireflyCount = isMobile ? 8 : 20; 
+            const omCount = isMobile ? 2 : 5;       
+
             const fireflyContainer = document.getElementById('firefly-container');
-            const fireflyCount = 20;
             
             for (let i = 0; i < fireflyCount; i++) {
                 const firefly = document.createElement('div');
@@ -733,7 +827,6 @@
             }
 
             const omContainer = document.getElementById('floating-om-container');
-            const omCount = 5;
             for(let i=0; i<omCount; i++) {
                 const om = document.createElement('div');
                 om.classList.add('floating-om');
@@ -760,52 +853,38 @@
 
         // --- 2. Cursor Trail Effect ---
         function initCursorTrail() {
-            const container = document.getElementById('trail-container');
-            
-            const createSparkle = (x, y) => {
-                const sparkle = document.createElement('div');
-                sparkle.classList.add('sparkle');
-                sparkle.style.left = x + 'px';
-                sparkle.style.top = y + 'px';
-                container.appendChild(sparkle);
-                setTimeout(() => sparkle.remove(), 1000);
-            };
-
-            document.addEventListener('mousemove', (e) => {
-                if(Math.random() > 0.5) createSparkle(e.clientX, e.clientY);
-            });
-            
-            document.addEventListener('touchmove', (e) => {
-                const touch = e.touches[0];
-                if(Math.random() > 0.5) createSparkle(touch.clientX, touch.clientY);
-            });
+            if (window.matchMedia("(pointer: fine)").matches) {
+                const container = document.getElementById('trail-container');
+                const createSparkle = (x, y) => {
+                    const sparkle = document.createElement('div');
+                    sparkle.classList.add('sparkle');
+                    sparkle.style.left = x + 'px';
+                    sparkle.style.top = y + 'px';
+                    container.appendChild(sparkle);
+                    setTimeout(() => sparkle.remove(), 1000);
+                };
+                document.addEventListener('mousemove', (e) => {
+                    if(Math.random() > 0.5) createSparkle(e.clientX, e.clientY);
+                });
+            }
         }
 
-        // --- 3. 3D Tilt Effect for Card ---
+        // --- 3. 3D Tilt Effect for Card (Desktop Only) ---
         function init3DTilt() {
-            const card = document.getElementById('mainCard');
-            
-            document.addEventListener('mousemove', (e) => {
-                const x = (window.innerWidth / 2 - e.pageX) / 25;
-                const y = (window.innerHeight / 2 - e.pageY) / 25;
-                card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-            });
-            
-            // Reset on mouse leave
-            document.addEventListener('mouseleave', () => {
-                card.style.transform = `rotateY(0deg) rotateX(0deg)`;
-            });
+            if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+                const card = document.getElementById('mainCard');
+                document.addEventListener('mousemove', (e) => {
+                    const x = (window.innerWidth / 2 - e.pageX) / 25;
+                    const y = (window.innerHeight / 2 - e.pageY) / 25;
+                    card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+                });
+                document.addEventListener('mouseleave', () => {
+                    card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+                });
+            }
         }
 
-        // --- Logic ---
-        const frames = [
-            { main: "The Great Night", sub: "Of Spiritual Awakening" },
-            { main: "Overcoming Darkness", sub: "And Ignorance in Life" },
-            { main: "Connecting With", sub: "The Divine Consciousness" },
-            { main: "Om Namah Shivaya", sub: "Har Har Mahadev!" }
-        ];
-
-        function playIntroSequence(name) {
+        function playIntroSequence(name, startIndex = 0) {
             document.getElementById('form-section').classList.add('hidden');
             document.getElementById('default-header').classList.add('hidden');
             document.getElementById('static-header').classList.add('hidden'); 
@@ -817,7 +896,10 @@
             let delay = 0;
             const frameDuration = 2200;
 
-            frames.forEach((frame, index) => {
+            // Start from the requested frame index
+            const sequenceFrames = frames.slice(startIndex);
+
+            sequenceFrames.forEach((frame, index) => {
                 setTimeout(() => {
                     contentDiv.innerHTML = `
                         <div class="intro-text">${frame.main}</div>
@@ -837,7 +919,6 @@
         // --- Text Animation Helper ---
         function splitTextToSpans(text) {
             return text.split(' ').map((word, index) => {
-                // Add staggered animation delay based on index
                 const delay = index * 0.15; 
                 return `<span class="word-span" style="animation-delay: ${delay}s">${word}</span>`;
             }).join(' ');
@@ -853,7 +934,6 @@
             document.getElementById('wish-display').classList.remove('hidden');
             document.getElementById('display-name').textContent = safeName;
             
-            // Populate and animate blessing text
             const blessingContent = document.getElementById('blessing-content');
             const baseText = "May the divine glory of Lord Shiva destroy your sorrows and bless your life with peace, prosperity, and happiness.";
             blessingContent.innerHTML = `
@@ -888,7 +968,7 @@
                 const music = document.getElementById('bgMusic');
                 if(music.paused) toggleMusic();
 
-                playIntroSequence(input);
+                playIntroSequence(input, 0); // Start from beginning for creator
                 
             } else {
                 const inputField = document.getElementById('nameInput');
@@ -907,6 +987,7 @@
             } catch (e) { console.log("Preview mode: History reset skipped."); }
             
             document.getElementById('nameInput').value = '';
+            document.getElementById('open-modal').classList.add('hidden'); // Ensure modal is gone
             renderForm();
         }
 
@@ -916,7 +997,6 @@
             const title = "Happy Mahashivratri Wish";
             const text = `*${name}* sent you a divine Mahashivratri blessing! 🕉️✨\n\nSee it here:\n${shareUrl}`;
 
-            // Check if Web Share API is supported
             if (navigator.share) {
                 try {
                     await navigator.share({
@@ -928,7 +1008,6 @@
                     console.log('Share canceled or failed', err);
                 }
             } else {
-                // Fallback for desktops or unsupported browsers
                 try {
                     await navigator.clipboard.writeText(text);
                     alert('Link copied to clipboard! Share it on WhatsApp, Instagram, or anywhere.');
